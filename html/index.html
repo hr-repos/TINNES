@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Changing Background and Text</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 1s ease, color 1s ease; /* Add transition effect for smooth color change */
+      font-family: 'Helvetica', sans-serif; /* Change the font-family to your desired font */
+    }
+
+    #changingText {
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div id="changingText">ugh python</div>
+  <script>
+    function changeColors() {
+      // Generate random colors
+      const randomBackgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+      const randomTextColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+
+      // Update background and text colors
+      document.body.style.backgroundColor = randomBackgroundColor;
+      document.getElementById('changingText').style.color = randomTextColor;
+    }
+
+    // Change colors every 3 seconds (adjust as needed)
+    setInterval(changeColors, 1000);
+  </script>
+</body>
+</html>
