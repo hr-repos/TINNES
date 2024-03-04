@@ -11,22 +11,49 @@
         <title>Color Changing Background and Text</title>
         <style>
             body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 1s ease, color 1s ease; /* Add transition effect for smooth color change */
-            font-family: 'Helvetica', sans-serif; /* Change the font-family to your desired font */
+                /* display: flex; */
+                justify-content: center;
+                align-items: center;
+                font-family: 'Helvetica', sans-serif; /* Change the font-family to your desired font */
+                margin: 0;
+                padding: 0;
+                display: flex;
             }
 
-            #changingText {
-            font-size: 24px;
+
+            .container {
+                width: calc(100vw/3);
+                margin: 0 auto;
+                padding: 20px;
+            }
+            .message {
+                clear: both;
+                padding: 10px;
+                margin-bottom: 10px;
+                border-radius: 10px;
+                max-width: 70%;
+            }
+            .message-left {
+                background-color: #f2f2f2;
+                float: left;
+            }
+            .message-right {
+                background-color: #4CAF50;
+                color: white;
+                float: right;
             }
         </style>
     </head>
     <body>
-    
-        <input type="text" id="lname" name="lname">
+        
+
+        <!-- input type="text" id="lname" name="lname"> -->
+        
+        <div id="chat" > 
+            <div class="message message-left">Hello, how can I help you?</div>
+            <div class="message message-right">Hi! I have a question.</div>
+            <div class="message message-left">Sure, go ahead.</div>
+            <div class="message message-right">How do I create a chat interface like this in HTML?</div>
+        </div>
     </body>
 </html>

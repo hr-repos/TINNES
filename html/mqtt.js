@@ -24,23 +24,34 @@ const options = {
   username: 'webserver',
   password: 'h$!8o$#E*7&f6WU',
 }
+
+var container = document.getElementById('chat');
+
+
+
+
 const client  = mqtt.connect(url, options)
 client.on('connect', function () {
-  console.log('Connected')
-  // Subscribe to a topic
-  client.subscribe('test', function (err) {
-    if (!err) {
-      // Publish a message to a topic
-      client.publish('test', 'Hello mqtt')
-    }
-  })
+    console.log('Connected')
+    // Subscribe to a topic
+    client.subscribe('test', function (err) {
+        if (!err) {
+            // Publish a message to a topic
+            client.publish('test', 'Hello mqtt')
+        }
+    })
 })
 
 // Receive messages
 client.on('message', function (topic, payload, packet) {
   // message is Buffer
-  console.log(`Topic: ${topic}, Message: ${payload.toString()}, QoS: ${packet.qos}`)
-  
+    console.log(`Topic: ${topic}, Message: ${payload.toString()}, QoS: ${packet.qos}`)
+    var newMessage = document.createElement('div');
+    var messageString = payload.toString();
+    newMessage.innerHTML = '<div class="message message-left">' + messageString + '</div>';
+    chat.appendChild(newMessage);
+
+    
   //console.log(message.toString())
   //client.end()
 })
