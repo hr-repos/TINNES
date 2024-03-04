@@ -1,57 +1,64 @@
-// const mqtt = require('mqtt')
 
-/***
-    * Browser
-    * This document explains how to use MQTT over WebSocket with the ws and wss protocols.
-    * EMQX's default port for ws connection is 8083 and for wss connection is 8084.
-    * Note that you need to add a path after the connection address, such as /mqtt.
-    */
-const url = 'ws://localhost:8883'
-/***
-    * Node.js
-    * This document explains how to use MQTT over TCP with both mqtt and mqtts protocols.
-    * EMQX's default port for mqtt connections is 1883, while for mqtts it is 8883.
-    */
-// const url = 'mqtt://broker.emqx.io:1883'
+const url = 'ws://localhost:1884'
+const mqttID = generateID(10);      // randomly generated user id
 
-// Create an MQTT client instance
-const options = {
-  // Clean session
+const options = {                   // mqtt connection variables
   clean: true,
   connectTimeout: 4000,
-  // Authentication
-  clientId: 'emqx_test',
+  clientId: mqttID,
   username: 'webserver',
   password: 'h$!8o$#E*7&f6WU',
 }
 
 var container = document.getElementById('chat');
 
-
-
-
 const client  = mqtt.connect(url, options)
 client.on('connect', function () {
     console.log('Connected')
-    // Subscribe to a topic
     client.subscribe('test', function (err) {
         if (!err) {
-            // Publish a message to a topic
-            client.publish('test', 'Hello mqtt')
+            // Send message that this user enterd the chat`
+            client.publish('test', '{"sender": "' + mqttID + '", "message": "--enterd the chat--"}');
         }
     })
 })
 
-// Receive messages
 client.on('message', function (topic, payload, packet) {
-  // message is Buffer
-    console.log(`Topic: ${topic}, Message: ${payload.toString()}, QoS: ${packet.qos}`)
+    console.log(`Topic: ${topic}, Message: ${payload.toString()}`)
     var newMessage = document.createElement('div');
-    var messageString = payload.toString();
-    newMessage.innerHTML = '<div class="message message-left">' + messageString + '</div>';
-    chat.appendChild(newMessage);
+    const jsonPayload = JSON.parse(payload.toString());
+    var messageSender = jsonPayload.sender;
+    var messageString = jsonPayload.message;
 
-    
-  //console.log(message.toString())
-  //client.end()
+    // do nothing when its the announement that the current user enterd the chat
+    // if the messages comes from the current user -> put it on the right
+    // if the message comes from another user      -> put it on the left
+    if (messageString === '--enterd the chat--' && messageSender===mqttID){}
+    else if (messageSender == mqttID){
+        newMessage.innerHTML = '<div class="message message-right"><b><u>' + messageSender + '</u></b><br/>' + messageString + '</div>';
+    }
+    else {
+        newMessage.innerHTML = '<div class="message message-left"><b><u>' + messageSender + '</u></b><br/>' + messageString + '</div>';
+    }
+    chat.appendChild(newMessage);
 })
+
+// create a random id from all lowercase and uppercase letters and all numbers
+function generateID(idLength) {
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var id = '';
+    for (let i = 0; i < idLength; i++){
+        id += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return id;
+}
+
+// send the message and clear the text box
+function sendMessage(){
+    var message = document.getElementById("messageInput").value;
+    if (message != ""){
+        var jsonMessage = '{"sender": "' + mqttID + '", "message": "' + message + '"}';    
+        client.publish('test', jsonMessage);
+        document.getElementById("messageInput").value = "";
+    }
+}
