@@ -1,0 +1,40 @@
+body {
+    justify-content: center;
+    align-items: center;
+    font-family: 'Helvetica', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.container {
+    width: calc(100vw/3);
+    margin: 0 auto;
+    padding: 20px;
+}
+.message {
+    clear: both;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    max-width: 70%;
+    clear: both;
+}
+.message-left {
+    background-color: #f2f2f2;
+    float: left;
+    margin-right: 10px;
+}
+.message-right {
+    background-color: #ac9de1;
+    color: white;
+    float: right;
+    margin-left: 10px;
+}
+.input-container {
+    text-align: center;
+    margin-top: 20px;
+    clear: both;
+    bottem: 0;
+}
+            

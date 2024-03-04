@@ -6,54 +6,26 @@
             // Your MQTT code here
         </script>
         <script type="text/javascript" src="mqtt.js"></script>
+        <link rel="stylesheet" type="text/css" href="website.css">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Color Changing Background and Text</title>
-        <style>
-            body {
-                /* display: flex; */
-                justify-content: center;
-                align-items: center;
-                font-family: 'Helvetica', sans-serif; /* Change the font-family to your desired font */
-                margin: 0;
-                padding: 0;
-                display: flex;
-            }
-
-
-            .container {
-                width: calc(100vw/3);
-                margin: 0 auto;
-                padding: 20px;
-            }
-            .message {
-                clear: both;
-                padding: 10px;
-                margin-bottom: 10px;
-                border-radius: 10px;
-                max-width: 70%;
-            }
-            .message-left {
-                background-color: #f2f2f2;
-                float: left;
-            }
-            .message-right {
-                background-color: #4CAF50;
-                color: white;
-                float: right;
-            }
-        </style>
+ 
     </head>
     <body>
         
 
         <!-- input type="text" id="lname" name="lname"> -->
-        
-        <div id="chat" > 
-            <div class="message message-left">Hello, how can I help you?</div>
-            <div class="message message-right">Hi! I have a question.</div>
-            <div class="message message-left">Sure, go ahead.</div>
-            <div class="message message-right">How do I create a chat interface like this in HTML?</div>
+        <div class="chat-container"> 
+            <div id="chat" > 
+       
+        <div class="message message-left"><b><u>SERVER</u></b><br/>You are succefully connected.</div>
+            </div>
+
+            <div class="input-container">
+                <input type="text" id="messageInput" placeholder="Type your message here...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
         </div>
     </body>
 </html>
