@@ -12,7 +12,7 @@
 
 DHT dht(DHTPIN, DHTTYPE);
 
-
+//student:welkom01
 
 const char* ssid = SECRET_SSID;
 const char* password = SECRET_PASS;
@@ -61,15 +61,27 @@ void printLocalTime() {
 
 
 void callback(char* topic, byte* payload, unsigned int length) {
-    
     char message[length + 1]; // +1 for null terminator
     for (int i = 0; i < length; i++) {
         message[i] = (char)payload[i];
     }
     message[length] = '\0';
+
+    char receiver[11];
+    for (int i = 0; i < 11; i++) {
+        receiver[i] = message[i];
+    }
+    receiver[11] = '\0';
+    
+    if (!strcmp(receiver, "BOT-1051997")==0) {
+        Serial.print("message ignored, receiver: ");
+        Serial.println(receiver);
+        return;
+    }
+    
     client.unsubscribe("chat/message");
 
-    if (strcmp(message, "test") == 0) {
+    if (strcmp(message, "BOT-1051997: test") == 0) {
         Serial.println("Test message received");
         client.publish(TOPIC, "Test message received");
     } 
@@ -91,10 +103,10 @@ void callback(char* topic, byte* payload, unsigned int length) {
     else if (strcmp(message, "BOT-1051997: led:aan") == 0) {
         Serial.println("led on request received");
         digitalWrite(BUILTIN_LED, HIGH);
-        client.publish(TOPIC, "BOT-1051997: led isd now on");
+        client.publish(TOPIC, "BOT-1051997: led is now on");
     }
     else if (strcmp(message, "BOT-1051997: led:uit") == 0) {
-        Serial.println("led on request received");
+        Serial.println("led off request received");
         digitalWrite(BUILTIN_LED, LOW);
         client.publish(TOPIC, "BOT-1051997: led is now off");
     }
@@ -105,6 +117,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
     Serial.println();
     client.subscribe("chat/message");
 }
+
 
 void reconnect() {
     // Loop until we're reconnected
